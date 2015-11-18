@@ -10,7 +10,10 @@
   <dl>
     <dt>タイトル</dt><dd><%= message.title %></dd>
     <dt>本文</dt><dd><%= message.body %></dd>
+    <dt>投稿者</dt><dd><%= message.user.name %></dd>
   </dl>
-  <%= link_to 'Edit', edit_message_path(message) %>
-  <%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <% if @current_user.id == message.user.id %>
+    <%= link_to 'Edit', edit_message_path(message) %>
+    <%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %>
+  <%end%>
 <% end %>

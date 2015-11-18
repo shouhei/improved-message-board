@@ -1,6 +1,6 @@
 # coding: utf-8
 class UsersController < ApplicationController
-  before_action :login?, except: [:login, :authenticate, :new]
+  before_action :login?, except: [:login, :authenticate, :new, :create]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   # GET /users
   # GET /users.json
@@ -68,8 +68,6 @@ class UsersController < ApplicationController
   def authenticate
     p user_params
     user = User.find_by(name: user_params[:name])
-    p user
-    p user.authenticate(user_params[:password])
     if user && user.authenticate(user_params[:password])
       session[:user_id] = user.id
       redirect_to messages_path, notice: 'ログインしました'
