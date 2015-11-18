@@ -1,6 +1,7 @@
+# coding: utf-8
 class UsersController < ApplicationController
+  before_action :login?, except: [:login, :authenticate, :new]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-
   # GET /users
   # GET /users.json
   def index
@@ -61,6 +62,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def login
+  end
+
+  def authenticate
+    p user_params
+    user = User.find_by(name: user_params[:name])
+    p user
+    p user.authenticate(user_params[:password])
+    if user && user.authenticate(user_params[:password])
+      session[:user_id] = user.id
+      redirect_to messages_path, notice: 'ログインしました'
+    else
+      redirect_to users_login_path, alert: 'ログインに失敗しました'
+    end
+  end
+
+  def logout
+    @current_user = nil
+    reset_session
+    redirect_to users_login_path, notice: 'ログアウトしました'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -69,6 +92,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :password_digest)
+      params.require(:user).permit(:name, :password, :password_confirmation)
     end
 end
