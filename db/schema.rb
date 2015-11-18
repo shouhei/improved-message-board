@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151115092201) do
+ActiveRecord::Schema.define(version: 20151117093222) do
 
   create_table "messages", force: :cascade do |t|
     t.string   "title"
@@ -20,5 +20,14 @@ ActiveRecord::Schema.define(version: 20151115092201) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.string   "password_digest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "users", ["name"], name: "index_users_on_name", unique: true, using: :btree
 
 end
