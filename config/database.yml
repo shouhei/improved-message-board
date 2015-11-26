@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: improve-message-board_production
-  username: improve-message-board
-  password: <%= ENV['IMPROVE-MESSAGE-BOARD_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
